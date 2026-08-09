@@ -1,0 +1,3 @@
+setuptools<82
+onnx==1.18.0
+rknn-toolkit2==2.3.2

@@ -1,0 +1,97 @@
+:root {
+  --primary-500: #2563eb;
+  --primary-600: #1d4ed8;
+  --surface-0: #f5f7fb;
+  --surface-1: #ffffff;
+  --border: #d9e0ea;
+  --text: #172033;
+}
+
+body, .gradio-container {
+  background: var(--surface-0) !important;
+  color: var(--text) !important;
+}
+
+.gradio-container {
+  max-width: none !important;
+  min-height: 100vh !important;
+  padding: 20px 28px 28px !important;
+  box-sizing: border-box;
+}
+
+.app-shell {
+  min-height: calc(100vh - 48px);
+}
+
+.app-header {
+  flex: 0 0 auto;
+  padding: 4px 0 14px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+.panel {
+  min-height: calc(100vh - 112px);
+  box-sizing: border-box;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.workspace {
+  flex: 1 1 auto;
+  align-items: stretch !important;
+}
+
+.result-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+#task-log {
+  flex: 1 1 0 !important;
+  min-height: 240px !important;
+  height: clamp(240px, calc(100vh - 300px), 720px) !important;
+  max-height: 720px !important;
+  overflow: hidden !important;
+}
+
+#task-log > div,
+#task-log .wrap,
+#task-log .input-container,
+#task-log textarea {
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+#task-log textarea {
+  display: block !important;
+  overflow-x: auto !important;
+  overflow-y: scroll !important;
+  resize: none !important;
+  white-space: pre !important;
+}
+
+textarea, input, select {
+  border-color: var(--border) !important;
+}
+
+button.primary {
+  background: var(--primary-500) !important;
+}
+
+button.primary:hover {
+  background: var(--primary-600) !important;
+}
+
+#status textarea {
+  font-weight: 600;
+}

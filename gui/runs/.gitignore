@@ -1,0 +1,4 @@
+# 转换生成的模型、日志和校准数据不进入 Git。
+*
+!.gitignore
+!.gitkeep
