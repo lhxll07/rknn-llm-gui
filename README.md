@@ -191,5 +191,6 @@ Windows + WSL2 用户执行：
 - [官方 rknn-llm 仓库](https://github.com/airockchip/rknn-llm)
 - [官方 RKNN Toolkit2 仓库](https://github.com/airockchip/rknn-toolkit2)
 - [官方 RKLLM 版本记录](CHANGELOG.md)
+- [项目宣传页和录制说明](promo/README.md)
 
 本项目遵循仓库中的原有许可证。具体内容见 [LICENSE](LICENSE)。

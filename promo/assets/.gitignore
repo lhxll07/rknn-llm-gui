@@ -1,0 +1,4 @@
+# 录屏和旁白是本地素材，不提交到 Git。
+*
+!.gitignore
+!.gitkeep
