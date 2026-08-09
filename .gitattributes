@@ -1,0 +1,2 @@
+# Shell scripts must stay LF so they run correctly in WSL and Linux.
+*.sh text eol=lf
