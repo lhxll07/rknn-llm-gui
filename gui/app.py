@@ -90,6 +90,10 @@ def _combined_preset(platform_name: str, quantization_name: str) -> dict:
     preset = dict(PRESETS[platform_name])
     preset.pop("default_quantization", None)
     preset.update(QUANTIZATIONS[quantization_name])
+    # optimization_level=1 (质量优先) silently falls back to W8A8 for W4A16
+    # quantization, so force 0 to make the selected quantization take effect.
+    if preset["quantized_dtype"].startswith("w4a16"):
+        preset["optimization_level"] = 0
     return preset
 
 
