@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fa">
+  <title>RKLLM 工作台</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">R</div>
+        <div>
+          <h1>RKLLM 工作台</h1>
+          <p id="platform-caption">本地模型转换</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <span class="privacy-note">文件只在本机处理</span>
+        <button class="button button-quiet" id="check-environment" type="button">检查环境</button>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <form class="settings-panel" id="settings-form">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">转换任务</p>
+            <h2>准备模型</h2>
+          </div>
+          <span class="step-count">3 步完成</span>
+        </div>
+
+        <section class="form-step">
+          <div class="step-label"><span>01</span><div><strong>选择模型</strong><small>填写模型目录</small></div></div>
+          <label class="field">
+            <span>模型目录</span>
+            <div class="input-action">
+              <input id="model-path" name="model_path" placeholder="/home/user/models/your-model" required>
+              <button class="browse-button" id="select-model-folder" type="button">选择</button>
+            </div>
+          </label>
+          <p class="field-help">可以直接输入路径，或先在文件管理器中复制模型目录。</p>
+        </section>
+
+        <section class="form-step">
+          <div class="step-label"><span>02</span><div><strong>确认方案</strong><small>预设会自动配置 NPU 参数</small></div></div>
+          <div class="field-grid two-columns">
+            <label class="field"><span>转换类型</span><select id="conversion-mode"><option>文本模型</option><option>视觉模型</option></select></label>
+            <label class="field"><span>目标平台</span><select id="platform"></select></label>
+          </div>
+          <div class="field-grid two-columns">
+            <label class="field"><span>量化方式</span><select id="quantization"></select></label>
+            <label class="field"><span>最大上下文长度</span><input id="max-context" type="number" min="32" step="32" value="4096"></label>
+          </div>
+          <div class="preset-summary" id="preset-summary"></div>
+          <label class="field text-only-field" id="calibration-field"><span>校准数据 JSON</span><input id="calibration-path" value="examples/rkllm_api_demo/export/data_quant.json"></label>
+
+          <div class="vision-fields" id="vision-fields" hidden>
+            <div class="subsection-title">视觉模型参数</div>
+            <label class="field"><span>模型类型</span><select id="vision-model"></select></label>
+            <div class="field-grid three-columns">
+              <label class="field"><span>图像批次</span><input id="vision-batch" type="number" min="1" step="1" value="1"></label>
+              <label class="field"><span>图像高度</span><input id="vision-height" type="number" min="1" step="1" value="448"></label>
+              <label class="field"><span>图像宽度</span><input id="vision-width" type="number" min="1" step="1" value="448"></label>
+            </div>
+            <div class="field-grid two-columns">
+              <label class="field"><span>ONNX 输出</span><input id="vision-onnx" value="gui/runs/vision/model_vision.onnx"></label>
+              <label class="field"><span>RKNN 输出</span><input id="vision-rknn" value="gui/runs/vision/model_vision.rknn"></label>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-step">
+          <div class="step-label"><span>03</span><div><strong>设置输出</strong><small>转换完成后得到 RKLLM 文件</small></div></div>
+          <label class="field">
+            <span>RKLLM 输出文件</span>
+            <div class="input-action">
+              <input id="output-path" value="gui/runs/model.rkllm" required>
+              <button class="browse-button" id="select-output-folder" type="button">选择目录</button>
+            </div>
+          </label>
+          <details class="advanced">
+            <summary>高级设置</summary>
+            <div class="field-grid two-columns advanced-content">
+              <label class="field"><span>运行设备</span><select id="device"><option value="cuda">CUDA</option><option value="cpu">CPU</option></select></label>
+              <label class="field"><span>权重类型</span><select id="dtype"><option>float32</option><option>float16</option><option>bfloat16</option></select></label>
+            </div>
+          </details>
+        </section>
+
+        <div class="form-actions">
+          <button class="button button-primary" id="start-conversion" type="submit"><span>开始转换</span><span class="button-arrow">→</span></button>
+          <button class="button button-stop" id="stop-conversion" type="button">停止</button>
+        </div>
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+      </form>
+
+      <aside class="activity-panel">
+        <div class="activity-heading">
+          <div><p class="eyebrow">实时反馈</p><h2>任务进度</h2></div>
+          <div class="status status-idle" id="status"><span class="status-dot"></span><span id="status-text">空闲</span></div>
+        </div>
+        <div class="log-heading"><span>任务日志</span><button class="text-button" id="copy-log" type="button">复制</button></div>
+        <pre class="log-view" id="log-view"><span class="log-placeholder">开始转换后，实时日志会显示在这里。</span></pre>
+        <div class="output-box" id="output-box" hidden><span>已生成文件</span><button class="output-link" id="open-output" type="button">打开目录 ↗</button><code id="output-path-display"></code></div>
+        <div class="environment-section">
+          <div class="log-heading"><span>环境信息</span><button class="text-button" id="refresh-environment" type="button">检查环境</button></div>
+          <pre class="environment-view" id="environment-view"><span class="log-placeholder">点击“检查环境”查看两套运行环境。</span></pre>
+        </div>
+      </aside>
+    </section>
+    <footer class="footer">RKLLM 工作台 · 本地运行 · <span id="footer-platform">Linux</span></footer>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
