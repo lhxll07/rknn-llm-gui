@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#101114"/>
+
+  <g fill="none" stroke="#252a34" stroke-width="1">
+    <path d="M64 164H1856M64 884H1856"/>
+    <path d="M64 164V884M1856 164V884"/>
+    <path d="M112 214H510M112 836H510"/>
+    <path d="M1290 214H1808M1290 836H1808"/>
+  </g>
+
+  <g fill="#7b818c" font-family="Noto Sans CJK SC, Noto Sans CJK TC, sans-serif">
+    <text x="112" y="112" font-size="24" font-weight="700" letter-spacing="5">RKLLM WORKBENCH / 项目演示</text>
+    <text x="1808" y="112" text-anchor="end" font-size="22" letter-spacing="3">本地运行 · 开源 Demo</text>
+  </g>
+
+  <rect x="112" y="236" width="184" height="52" fill="#176fff"/>
+  <text x="204" y="272" text-anchor="middle" fill="#ffffff" font-family="Noto Sans CJK SC, Noto Sans CJK TC, sans-serif" font-size="26" font-weight="700" letter-spacing="3">RK3588</text>
+
+  <g fill="#f5f5f7" font-family="Noto Sans CJK SC, Noto Sans CJK TC, sans-serif" font-weight="700">
+    <text x="108" y="472" font-size="142">模型转换</text>
+    <text x="108" y="634" font-size="124" fill="#858a94">不用再折腾了</text>
+  </g>
+
+  <g fill="#a2a7b0" font-family="Noto Sans CJK SC, Noto Sans CJK TC, sans-serif">
+    <text x="112" y="730" font-size="34">环境、版本、命令，还有各种参数。</text>
+    <text x="112" y="782" font-size="28" fill="#5e6570">RKNN / RKLLM 图形化工作台</text>
+  </g>
+
+  <g transform="translate(1010 218)">
+    <rect width="798" height="620" rx="8" fill="#181b21" stroke="#4a515d" stroke-width="2"/>
+    <rect width="798" height="68" rx="8" fill="#1d2128"/>
+    <path d="M0 68H798" stroke="#343b46" stroke-width="2"/>
+    <circle cx="30" cy="34" r="7" fill="#4f5864"/>
+    <circle cx="54" cy="34" r="7" fill="#4f5864"/>
+    <circle cx="78" cy="34" r="7" fill="#4f5864"/>
+    <text x="399" y="41" text-anchor="middle" fill="#a8afb9" font-family="Noto Sans CJK SC, Noto Sans CJK TC, sans-serif" font-size="22">RKLLM 工作台</text>
+    <text x="744" y="41" text-anchor="end" fill="#4fd091" font-family="Noto Sans CJK SC, Noto Sans CJK TC, sans-serif" font-size="18">本地运行</text>
+
+    <rect x="38" y="106" width="308" height="452" fill="#14171c" stroke="#343b46"/>
+    <text x="68" y="145" fill="#f5f5f7" font-family="Noto Sans CJK SC, Noto Sans CJK TC, sans-serif" font-size="24" font-weight="700">模型转换</text>
+
+    <g font-family="Noto Sans CJK SC, Noto Sans CJK TC, sans-serif">
+      <text x="68" y="190" fill="#747c87" font-size="16">模型目录</text>
+      <rect x="68" y="205" width="248" height="55" rx="4" fill="#1c2129" stroke="#176fff"/>
+      <text x="84" y="239" fill="#d9dde3" font-size="16">Qwen3.5-0.8B</text>
+      <text x="68" y="296" fill="#747c87" font-size="16">目标平台预设</text>
+      <rect x="68" y="311" width="248" height="55" rx="4" fill="#1c2129" stroke="#343b46"/>
+      <text x="84" y="345" fill="#d9dde3" font-size="16">RK3588</text>
+      <text x="68" y="402" fill="#747c87" font-size="16">量化方式</text>
+      <rect x="68" y="417" width="248" height="55" rx="4" fill="#1c2129" stroke="#343b46"/>
+      <text x="84" y="451" fill="#d9dde3" font-size="16">W8A8</text>
+    </g>
+
+    <rect x="68" y="497" width="248" height="42" rx="4" fill="#176fff"/>
+    <text x="192" y="524" text-anchor="middle" fill="#ffffff" font-family="Noto Sans CJK SC, Noto Sans CJK TC, sans-serif" font-size="17" font-weight="700">开始转换</text>
+
+    <rect x="380" y="106" width="380" height="452" fill="#14171c" stroke="#343b46"/>
+    <g fill="#777f8b" font-family="SFMono-Regular, Consolas, monospace" font-size="17">
+      <text x="414" y="148" fill="#d9dde3" font-family="Noto Sans CJK SC, Noto Sans CJK TC, sans-serif" font-size="19">任务日志</text>
+      <text x="414" y="208">$ 加载模型</text>
+      <text x="414" y="252">✓ 读取校准数据</text>
+      <text x="414" y="296">✓ 构建 RKLLM 模型</text>
+      <text x="414" y="340">正在导出 model.rkllm</text>
+      <text x="414" y="384" fill="#4fd091">转换完成。</text>
+    </g>
+    <path d="M414 444H726" stroke="#343b46" stroke-width="4"/>
+    <path d="M414 444H686" stroke="#176fff" stroke-width="4"/>
+    <text x="414" y="492" fill="#4fd091" font-family="Noto Sans CJK SC, Noto Sans CJK TC, sans-serif" font-size="18">输出：model.rkllm</text>
+  </g>
+
+  <g fill="none" stroke="#176fff" stroke-width="2" opacity="0.9">
+    <path d="M864 440H968"/>
+    <path d="M864 440l-18-12M864 440l-18 12"/>
+    <circle cx="864" cy="440" r="7" fill="#101114"/>
+  </g>
+  <text x="910" y="416" text-anchor="middle" fill="#7b818c" font-family="Noto Sans CJK SC, Noto Sans CJK TC, sans-serif" font-size="17">一套流程</text>
+
+  <g fill="#4f5864" font-family="SFMono-Regular, Consolas, monospace" font-size="17">
+    <text x="112" y="962">环境 × 版本 × 参数</text>
+    <text x="1808" y="962" text-anchor="end">01 / 01</text>
+  </g>
+</svg>

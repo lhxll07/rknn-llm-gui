@@ -140,6 +140,27 @@ button {
   transition: opacity 650ms var(--ease), transform 900ms var(--ease), background-color 650ms var(--ease);
 }
 
+.scene::before {
+  position: absolute;
+  z-index: 0;
+  inset: 7.8% 4.4% 11%;
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  content: "";
+  pointer-events: none;
+}
+
+.scene::after {
+  position: absolute;
+  z-index: 0;
+  top: 7.8%;
+  left: 4.4%;
+  width: 42px;
+  height: 8px;
+  border-top: 2px solid rgba(22, 119, 255, 0.78);
+  content: "";
+  pointer-events: none;
+}
+
 .scene.is-active {
   z-index: 2;
   opacity: 1;
@@ -174,6 +195,10 @@ button {
   max-width: 52%;
 }
 
+.intro-copy {
+  max-width: 50%;
+}
+
 .eyebrow {
   margin: 0 0 24px;
   color: var(--muted);
@@ -200,13 +225,16 @@ p {
 h1,
 h2 {
   font-weight: 600;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  text-wrap: balance;
 }
 
 h1 {
   margin-bottom: 24px;
-  font-size: clamp(42px, 5.3vw, 102px);
-  line-height: 0.99;
+  font-size: clamp(42px, 4.3vw, 86px);
+  line-height: 1.04;
 }
 
 h1 span,
@@ -217,16 +245,32 @@ h2 em {
 
 h2 {
   margin-bottom: 20px;
-  font-size: clamp(34px, 4vw, 76px);
-  line-height: 1.02;
+  font-size: clamp(34px, 3.3vw, 64px);
+  line-height: 1.1;
 }
 
 .intro-lead,
-.section-copy > p:last-child,
+.section-copy > p:last-of-type,
 .outro-copy > p:last-of-type {
   color: var(--muted);
   font-size: clamp(13px, 1.05vw, 20px);
   line-height: 1.5;
+}
+
+.scene-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.scene-tags span {
+  padding: 7px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  color: rgba(255, 255, 255, 0.52);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 9px;
+  line-height: 1;
 }
 
 .intro-copy,
@@ -305,12 +349,19 @@ h2 {
   max-width: 35%;
 }
 
+.scene-setup .section-copy,
+.scene-text .section-copy,
+.scene-vision .section-copy,
+.scene-recording .section-copy {
+  max-width: 31%;
+}
+
 .setup-rail {
   position: absolute;
   top: 50%;
-  right: 8%;
+  right: 3.5%;
   display: flex;
-  width: 50%;
+  width: 58%;
   flex-direction: column;
   gap: 12px;
   transform: translateY(-50%);
@@ -382,14 +433,15 @@ h2 {
 .workbench {
   position: absolute;
   top: 50%;
-  right: 5.5%;
-  width: 56%;
+  right: 3.5%;
+  width: 61%;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.19);
   border-radius: 18px;
   background: #191b20;
   box-shadow: 0 28px 65px rgba(0, 0, 0, 0.34);
   transform: translateY(-45%);
+  transition: opacity 650ms var(--ease), transform 800ms var(--ease);
 }
 
 .mock-window-bar {
@@ -547,35 +599,14 @@ h2 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.mock-progress {
-  height: 2px;
-  overflow: hidden;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.13);
-}
-
-.mock-progress span {
-  display: block;
-  width: 0;
-  height: 100%;
-  background: var(--blue);
-}
-
-.scene-text.is-active .mock-progress span {
-  animation: progress-in 10s 400ms linear forwards;
-}
-
-@keyframes progress-in {
-  to { width: 100%; }
-}
-
 .vision-flow {
   position: absolute;
   top: 50%;
-  right: 7%;
-  width: 53%;
+  right: 4%;
+  width: 58%;
   height: 49%;
   transform: translateY(-50%);
+  transition: opacity 650ms var(--ease), transform 800ms var(--ease);
 }
 
 .flow-node {
@@ -675,14 +706,126 @@ h2 {
 .recording-frame {
   position: absolute;
   top: 50%;
-  right: 5.5%;
-  width: 53%;
+  right: 3.5%;
+  width: 59%;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 17px;
   background: #1b1d22;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.36);
   transform: translateY(-46%);
+}
+
+.scene-recording .recording-frame {
+  opacity: 0.18;
+  pointer-events: none;
+  transition: opacity 750ms var(--ease), transform 900ms var(--ease);
+}
+
+.scene-recording.show-recording .recording-frame {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-46%) scale(1);
+}
+
+.clip-frame {
+  position: absolute;
+  top: 50%;
+  right: 3.5%;
+  width: 62%;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 17px;
+  background: #f2f3f5;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.36);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-45%) scale(0.985);
+  transition: opacity 750ms var(--ease), transform 900ms var(--ease);
+}
+
+.clip-frame .recording-label {
+  z-index: 3;
+}
+
+.privacy-mask {
+  position: absolute;
+  z-index: 2;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(7px);
+  pointer-events: none;
+}
+
+.mask-model-path {
+  top: 29%;
+  left: 0;
+  width: 49%;
+  height: 13%;
+}
+
+.mask-environment-paths {
+  top: 33%;
+  left: 0;
+  width: 49%;
+  height: 27%;
+}
+
+.mask-file-path {
+  top: 13%;
+  left: 21%;
+  width: 59%;
+  height: 11%;
+}
+
+.mask-output-form-paths {
+  top: 45%;
+  left: 0;
+  width: 43%;
+  height: 42%;
+}
+
+.clip-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #eef0f3;
+  transform: translateY(-6%) scale(1.2);
+}
+
+.scene.show-recording .clip-frame {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-45%) scale(1);
+}
+
+.scene-text.show-recording .mock-text-workbench,
+.scene-outro.show-recording .outro-files {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-45%) scale(0.985);
+}
+
+.scene-vision.show-recording .vision-flow {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) scale(0.985);
+}
+
+.scene-text .clip-frame,
+.scene-vision .clip-frame {
+  width: 62%;
+}
+
+.scene-outro .clip-frame {
+  width: 43%;
+  transform: translateY(-50%) scale(0.985);
+}
+
+.scene-outro.show-recording .clip-frame {
+  transform: translateY(-50%) scale(1);
 }
 
 .recording-label {
@@ -702,14 +845,11 @@ h2 {
   backdrop-filter: blur(12px);
 }
 
-#recording {
+.recording-frame .clip-video {
   display: none;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
 }
 
-.recording-frame.has-video #recording {
+.recording-frame.has-video .clip-video {
   display: block;
 }
 
@@ -771,7 +911,8 @@ h2 {
 
 .outro-copy h2 {
   margin-bottom: 25px;
-  font-size: clamp(38px, 4.7vw, 88px);
+  font-size: clamp(38px, 3.7vw, 72px);
+  line-height: 1.08;
 }
 
 .github-link {
@@ -872,80 +1013,6 @@ h2 {
 .icon-button:hover,
 .sound-button:hover {
   color: var(--blue);
-}
-
-.pause-icon {
-  display: none;
-  font-size: 15px;
-  letter-spacing: -3px;
-}
-
-.presentation.is-playing .play-icon {
-  display: none;
-}
-
-.presentation.is-playing .pause-icon {
-  display: block;
-}
-
-.time-readout {
-  display: flex;
-  flex: 0 0 auto;
-  gap: 4px;
-  color: currentColor;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 10px;
-  font-variant-numeric: tabular-nums;
-}
-
-.time-readout span:last-child {
-  opacity: 0.42;
-}
-
-.timeline {
-  position: relative;
-  display: flex;
-  flex: 1 1 auto;
-  align-items: center;
-  height: 28px;
-  outline: none;
-}
-
-.timeline-track {
-  position: relative;
-  width: 100%;
-  height: 2px;
-  overflow: hidden;
-  border-radius: 2px;
-  background: currentColor;
-  opacity: 0.22;
-}
-
-.timeline-track span {
-  display: block;
-  width: 0;
-  height: 100%;
-  background: currentColor;
-  opacity: 1;
-}
-
-.timeline-markers {
-  position: absolute;
-  right: 0;
-  left: 0;
-  height: 12px;
-  pointer-events: none;
-}
-
-.timeline-markers i {
-  position: absolute;
-  top: 50%;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.48;
-  transform: translate(-50%, -50%);
 }
 
 .sound-button {
@@ -1049,7 +1116,8 @@ h2 {
   .vision-flow,
   .workbench,
   .recording-frame,
-  .outro-files {
+  .outro-files,
+  .clip-frame {
     position: absolute;
     top: auto;
     right: 8%;
@@ -1110,6 +1178,34 @@ h2 {
     bottom: 24%;
   }
 
+  .scene-recording .recording-frame,
+  .scene-recording.show-recording .recording-frame {
+    transform: translateY(0) scale(0.985);
+  }
+
+  .scene-recording.show-recording .recording-frame {
+    transform: translateY(0) scale(1);
+  }
+
+  .clip-frame,
+  .scene-outro .clip-frame {
+    top: auto;
+    bottom: 24%;
+    width: 84%;
+    transform: translateY(0) scale(0.985);
+  }
+
+  .scene-text .clip-frame,
+  .scene-vision .clip-frame {
+    right: 8%;
+    width: 84%;
+  }
+
+  .scene.show-recording .clip-frame,
+  .scene-outro.show-recording .clip-frame {
+    transform: translateY(0) scale(1);
+  }
+
   .outro-copy {
     margin-top: 11vh;
   }
@@ -1143,5 +1239,202 @@ h2 {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 1ms !important;
+  }
+}
+
+/* 解释型演示：用线条和节点把问题关系讲清楚。 */
+.scene-setup,
+.scene-vision {
+  color: #f4f4f1;
+  background: #10131a;
+}
+
+.scene-setup .section-copy,
+.scene-vision .section-copy {
+  color: #f4f4f1;
+}
+
+.scene-setup .section-copy > p:last-child,
+.scene-vision .section-copy > p:last-child {
+  color: rgba(244, 244, 241, 0.52);
+}
+
+.scene-setup .eyebrow,
+.scene-vision .eyebrow {
+  color: rgba(244, 244, 241, 0.46);
+}
+
+.problem-map {
+  top: 50%;
+  right: 1.5%;
+  width: 42%;
+  aspect-ratio: 520 / 360;
+  transform: translateY(-50%);
+}
+
+.problem-map svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.map-path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-width: 1.5;
+  stroke-dasharray: 420;
+  stroke-dashoffset: 420;
+}
+
+.scene-intro.is-active .map-path {
+  animation: draw-map 1100ms 350ms var(--ease) forwards;
+}
+
+.scene-intro.is-active .path-version { animation-delay: 500ms; }
+.scene-intro.is-active .path-command { animation-delay: 650ms; }
+.scene-intro.is-active .path-model { animation-delay: 800ms; }
+
+@keyframes draw-map {
+  to { stroke-dashoffset: 0; }
+}
+
+.map-node {
+  position: absolute;
+  display: grid;
+  min-width: 118px;
+  gap: 7px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.27);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.035);
+  color: rgba(255, 255, 255, 0.9);
+  opacity: 0;
+  transform: translateY(9px);
+}
+
+.scene-intro.is-active .map-node {
+  animation: node-appear 650ms var(--ease) forwards;
+}
+
+.scene-intro.is-active .map-version { animation-delay: 150ms; }
+.scene-intro.is-active .map-command { animation-delay: 300ms; }
+.scene-intro.is-active .map-model { animation-delay: 450ms; }
+
+@keyframes node-appear {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.map-node b {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.map-node small {
+  color: rgba(255, 255, 255, 0.42);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 9px;
+}
+
+.map-env { top: 8%; left: 0; }
+.map-version { top: 8%; right: 0; }
+.map-command { bottom: 4%; left: 0; }
+.map-model { right: 0; bottom: 4%; }
+
+.map-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 68px;
+  height: 68px;
+  place-items: center;
+  border: 1px solid rgba(22, 119, 255, 0.85);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 25px;
+  transform: translate(-50%, -50%);
+}
+
+.scene-setup .rail-item {
+  border-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.scene-setup .rail-item strong {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.scene-setup .rail-item small,
+.scene-setup .rail-index {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.scene-setup .rail-check {
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  color: var(--green);
+}
+
+.scene-vision .flow-node {
+  border-color: rgba(255, 255, 255, 0.24);
+  border-radius: 3px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.scene-vision .flow-node strong {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.scene-vision .flow-node small,
+.scene-vision .flow-node span {
+  color: rgba(255, 255, 255, 0.43);
+}
+
+.scene-vision .flow-line,
+.scene-vision .flow-branch {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+html.recording-mode .controls {
+  display: none;
+}
+
+html.recording-mode .presentation {
+  box-shadow: none;
+}
+
+@media (max-width: 680px) {
+  .problem-map {
+    top: auto;
+    right: 10%;
+    bottom: 16%;
+    width: 80%;
+    transform: none;
+  }
+
+  .map-node {
+    min-width: 82px;
+    padding: 8px 9px;
+  }
+
+  .map-node b {
+    font-size: 10px;
+  }
+
+  .map-node small {
+    font-size: 7px;
+  }
+
+  .map-center {
+    width: 48px;
+    height: 48px;
+    font-size: 19px;
   }
 }

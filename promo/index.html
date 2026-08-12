@@ -21,52 +21,57 @@
       </header>
 
       <section class="stage" id="stage">
-        <article class="scene scene-intro is-active" data-start="0" data-end="6">
+        <article class="scene scene-intro is-active" data-start="0" data-end="7">
           <div class="intro-copy">
             <p class="eyebrow">RKLLM WORKBENCH / 项目演示</p>
-            <h1>把模型转换<br /><span>放进一个窗口。</span></h1>
-            <p class="intro-lead">一个给 rknn-llm 做的本地模型转换界面。</p>
+            <h1>模型转换真正开始之前，<br /><span>还有一件事要处理。</span></h1>
+            <p class="intro-lead">环境、版本、命令，还有各种参数。</p>
           </div>
-          <div class="intro-orbit" aria-hidden="true">
-            <div class="orbit-ring ring-one"></div>
-            <div class="orbit-ring ring-two"></div>
-            <div class="orbit-core">RK</div>
-            <span class="orbit-label label-model">模型</span>
-            <span class="orbit-label label-device">NPU</span>
-            <span class="orbit-label label-output">输出</span>
+          <div class="intro-orbit problem-map" aria-hidden="true">
+            <svg viewBox="0 0 520 360" role="presentation">
+              <path class="map-path path-env" d="M84 92 C155 34 207 72 260 178" />
+              <path class="map-path path-version" d="M430 92 C360 35 312 72 260 178" />
+              <path class="map-path path-command" d="M84 285 C170 320 211 266 260 178" />
+              <path class="map-path path-model" d="M430 285 C350 320 312 266 260 178" />
+            </svg>
+            <div class="map-node map-env"><b>环境</b><small>LLM / RKNN</small></div>
+            <div class="map-node map-version"><b>版本</b><small>Torch 2.6 / 2.4</small></div>
+            <div class="map-node map-command"><b>命令</b><small>参数 · 路径 · 校准</small></div>
+            <div class="map-node map-model"><b>模型</b><small>还没开始转换</small></div>
+            <div class="map-center">?</div>
           </div>
         </article>
 
-        <article class="scene scene-setup" data-start="6" data-end="13">
+        <article class="scene scene-setup" data-start="7" data-end="16">
           <div class="section-copy">
-            <p class="eyebrow">从选择开始</p>
-            <h2>模型、平台、量化。<br /><em>放在同一个流程里。</em></h2>
-            <p>路径不再散落在命令和配置文件之间。</p>
+            <p class="eyebrow">把准备工作收起来</p>
+            <h2>本来是不同的工具，<br /><em>最后却要一起工作。</em></h2>
+            <p>少一个环节，都可能影响最后的转换。</p>
           </div>
           <div class="setup-rail" aria-label="转换设置演示">
             <div class="rail-item rail-model">
               <span class="rail-index">01</span>
-              <div><small>模型目录</small><strong>Qwen3.5-0.8B</strong></div>
+              <div><small>语言环境</small><strong>Torch 2.6.0</strong></div>
               <span class="rail-check">✓</span>
             </div>
             <div class="rail-item rail-platform">
               <span class="rail-index">02</span>
-              <div><small>目标平台</small><strong>RK3588</strong></div>
+              <div><small>视觉环境</small><strong>RKNN Toolkit2</strong></div>
               <span class="rail-check">✓</span>
             </div>
             <div class="rail-item rail-quant">
               <span class="rail-index">03</span>
-              <div><small>量化方式</small><strong>W8A8</strong></div>
+              <div><small>转换参数</small><strong>RK3588 · W8A8</strong></div>
               <span class="rail-check">✓</span>
             </div>
           </div>
         </article>
 
-        <article class="scene scene-text" data-start="13" data-end="32">
+        <article class="scene scene-text" data-start="16" data-end="30">
           <div class="section-copy scene-copy-light">
             <p class="eyebrow">文本模型</p>
-            <h2>选好参数，<br /><em>开始转换。</em></h2>
-            <p>日志和状态都在眼前。</p>
+            <h2>把常用流程，<br /><em>放到同一个界面。</em></h2>
+            <p>选择模型、平台和量化方式，直接查看转换过程。</p>
           </div>
           <div class="workbench mock-text-workbench" aria-label="文本模型转换界面演示">
             <div class="mock-window-bar">
@@ -100,17 +105,23 @@
                   <p class="log-line">正在导出：model.rkllm</p>
                   <p class="log-line log-done">转换完成。</p>
                 </div>
-                <div class="mock-progress"><span></span></div>
               </section>
             </div>
           </div>
+          <figure class="clip-frame clip-text" data-reveal="1.2">
+            <div class="recording-label"><i></i> 实录 · 文本转换</div>
+            <video class="clip-video" data-recording-video data-rate="2.46" muted playsinline preload="auto">
+              <source src="assets/text-convert.mp4" type="video/mp4" />
+            </video>
+            <span class="privacy-mask mask-model-path" aria-hidden="true"></span>
+          </figure>
         </article>
 
-        <article class="scene scene-vision" data-start="32" data-end="46">
+        <article class="scene scene-vision" data-start="30" data-end="38">
           <div class="section-copy">
             <p class="eyebrow">视觉模型</p>
-            <h2>视觉部分，<br /><em>也放进来。</em></h2>
-            <p>同一套界面，完成视觉和语言两部分转换。</p>
+            <h2>视觉模型，<br /><em>也是同一套流程。</em></h2>
+            <p>先生成 ONNX，再转换 RKNN，最后处理 RKLLM。</p>
           </div>
           <div class="vision-flow" aria-label="视觉模型转换流程">
             <div class="flow-node node-model"><small>输入</small><strong>Qwen3.5</strong><span>模型目录</span></div>
@@ -121,40 +132,51 @@
             <div class="flow-branch"><i></i></div>
             <div class="flow-node node-rkllm"><small>语言导出</small><strong>RKLLM</strong><span>量化模型</span></div>
           </div>
+          <figure class="clip-frame clip-vision" data-reveal="0.9">
+            <div class="recording-label"><i></i> 实录 · 视觉转换</div>
+            <video class="clip-video" data-recording-video data-rate="2.1" muted playsinline preload="auto">
+              <source src="assets/vision-convert.mp4" type="video/mp4" />
+            </video>
+            <span class="privacy-mask mask-model-path" aria-hidden="true"></span>
+          </figure>
         </article>
 
-        <article class="scene scene-recording" data-start="46" data-end="56">
+        <article class="scene scene-recording" data-start="38" data-end="45">
           <div class="section-copy scene-copy-light recording-copy">
-            <p class="eyebrow">实际操作</p>
-            <h2>从界面开始，<br /><em>到文件结束。</em></h2>
-            <p>真实录屏可以放在这里，和动画使用同一套画面比例。</p>
+            <p class="eyebrow">安装与环境</p>
+            <h2>小白也能开始，<br /><em>环境交给工作台。</em></h2>
+            <p>一键安装，自动管理环境和依赖。</p>
+            <div class="scene-tags" aria-label="环境特点">
+              <span>本地运行</span>
+              <span>自动检测</span>
+              <span>Linux / WSL2</span>
+            </div>
           </div>
-          <div class="recording-frame">
-            <div class="recording-label"><i></i> 实录片段</div>
-            <video id="recording" muted playsinline preload="metadata">
-              <source src="assets/workbench-demo.mp4" type="video/mp4" />
+          <div class="recording-frame" data-reveal="1.1">
+            <div class="recording-label"><i></i> 实录 · 环境检查</div>
+            <video class="clip-video" data-recording-video data-rate="1" muted playsinline preload="auto">
+              <source src="assets/environment.mp4" type="video/mp4" />
             </video>
+            <span class="privacy-mask mask-environment-paths" aria-hidden="true"></span>
             <div class="recording-fallback">
-              <div class="fallback-top"><span>RKLLM 工作台</span><b>视觉模型</b></div>
+              <div class="fallback-top"><span>安装 RKLLM 工作台</span><b>自动准备环境</b></div>
               <div class="fallback-content">
-                <span class="fallback-chip">Qwen3.5</span>
-                <span class="fallback-arrow">→</span>
-                <span class="fallback-chip">ONNX</span>
-                <span class="fallback-arrow">→</span>
-                <span class="fallback-chip">RKNN</span>
+                <span class="fallback-chip">语言环境</span>
                 <span class="fallback-arrow">+</span>
-                <span class="fallback-chip">RKLLM</span>
+                <span class="fallback-chip">视觉环境</span>
+                <span class="fallback-arrow">✓</span>
+                <span class="fallback-chip">开始使用</span>
               </div>
-              <small>将 assets/workbench-demo.mp4 替换为真实录屏</small>
+              <small>Linux / WSL2 · 本地运行</small>
             </div>
           </div>
         </article>
 
-        <article class="scene scene-outro" data-start="56" data-end="60">
+        <article class="scene scene-outro" data-start="45" data-end="51">
           <div class="outro-copy">
             <p class="eyebrow">RKLLM WORKBENCH</p>
-            <h2>先把常用流程<br /><span>做简单。</span></h2>
-            <p>开源 · 本地运行 · 持续迭代</p>
+            <h2>目前还是 Demo，<br /><span>但常用流程已经跑通。</span></h2>
+            <p>项目已经开源，链接放在简介里。</p>
             <a class="github-link" href="https://github.com/lhxll07/rknn-llm-gui" target="_blank" rel="noreferrer">
               github.com/lhxll07/rknn-llm-gui <span>↗</span>
             </a>
@@ -164,18 +186,18 @@
             <div class="file-card file-rknn"><small>目标平台</small><strong>model.rknn</strong></div>
             <div class="file-card file-rkllm"><small>语言模型</small><strong>model.rkllm</strong></div>
           </div>
+          <figure class="clip-frame clip-output" data-reveal="0.75">
+            <div class="recording-label"><i></i> 实录 · 输出文件</div>
+            <video class="clip-video" data-recording-video data-rate="2.5" muted playsinline preload="auto">
+              <source src="assets/output.mp4" type="video/mp4" />
+            </video>
+            <span class="privacy-mask mask-file-path" aria-hidden="true"></span>
+            <span class="privacy-mask mask-output-form-paths" aria-hidden="true"></span>
+          </figure>
         </article>
       </section>
 
       <footer class="controls" aria-label="演示控制">
-        <button class="icon-button" id="play-button" type="button" aria-label="播放" title="播放">
-          <span class="play-icon">▶</span><span class="pause-icon">Ⅱ</span>
-        </button>
-        <div class="time-readout"><span id="current-time">00:00</span><span>/ 01:00</span></div>
-        <div class="timeline" id="timeline" role="slider" aria-label="演示进度" aria-valuemin="0" aria-valuemax="60" aria-valuenow="0" tabindex="0">
-          <div class="timeline-track"><span id="timeline-progress"></span></div>
-          <div class="timeline-markers" aria-hidden="true"><i style="left: 0%"></i><i style="left: 10%"></i><i style="left: 21.66%"></i><i style="left: 53.33%"></i><i style="left: 76.66%"></i><i style="left: 93.33%"></i></div>
-        </div>
         <button class="icon-button" id="replay-button" type="button" aria-label="重新播放" title="重新播放">↻</button>
         <button class="sound-button" id="sound-button" type="button" aria-label="旁白提示" title="旁白提示">旁白</button>
       </footer>
