@@ -3,6 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 APP_HOME="${RKLLM_WORKBENCH_HOME:-$HOME/.local/share/rknn-llm-workbench}"
+PYPI_MIRROR_URL="${RKLLM_WORKBENCH_PYPI_MIRROR:-https://mirrors.aliyun.com/pypi/simple}"
 MAMBA_ROOT_PREFIX="$APP_HOME/micromamba"
 MAMBA_BIN="$APP_HOME/bin/micromamba"
 LLM_ENV_PREFIX="$MAMBA_ROOT_PREFIX/envs/rknn-llm-workbench-llm"
@@ -164,7 +165,7 @@ echo "正在安装官方 RKLLM 依赖……"
 "$LLM_PYTHON" -m pip install -r "$ROOT_DIR/gui/requirements.txt"
 echo "正在安装视觉转换依赖……"
 "$VISION_PYTHON" -m pip install -r "$ROOT_DIR/gui/requirements-visual.txt" \
-  -i "https://mirrors.aliyun.com/pypi/simple"
+  -i "$PYPI_MIRROR_URL"
 
 echo "正在检查两个托管环境……"
 "$LLM_PYTHON" -m pip check

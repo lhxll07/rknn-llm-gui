@@ -95,10 +95,9 @@ class qwen2_5_vl_3b_vision(torch.nn.Module):
         self.batch_size = batch_size
 
     def forward(self, pixel_value, grid_thw):
-        if self.batch_size == 1:
-            patches = pixel_value.repeat(self.temporal_patch_size, 1, 1, 1)
-        elif self.batch_size % self.temporal_patch_size == 1:
-            repeat_image = pixel_value[-1:, ...].repeat(2, 1, 1, 1)
+        padding = (-pixel_value.size(0)) % self.temporal_patch_size
+        if padding:
+            repeat_image = pixel_value[-1:, ...].repeat(padding, 1, 1, 1)
             patches = torch.cat((pixel_value, repeat_image), dim=0)
         else:
             patches = pixel_value
@@ -121,10 +120,9 @@ class qwen3_vl_vision(torch.nn.Module):
         self.batch_size = batch_size
 
     def forward(self, pixel_value, grid_thw):
-        if self.batch_size == 1:
-            patches = pixel_value.repeat(self.temporal_patch_size, 1, 1, 1)
-        elif self.batch_size % self.temporal_patch_size == 1:
-            repeat_image = pixel_value[-1:, ...].repeat(2, 1, 1, 1)
+        padding = (-pixel_value.size(0)) % self.temporal_patch_size
+        if padding:
+            repeat_image = pixel_value[-1:, ...].repeat(padding, 1, 1, 1)
             patches = torch.cat((pixel_value, repeat_image), dim=0)
         else:
             patches = pixel_value
@@ -147,10 +145,9 @@ class qwen3_5_vl_vision(torch.nn.Module):
         self.batch_size = batch_size
 
     def forward(self, pixel_value, grid_thw):
-        if self.batch_size == 1:
-            patches = pixel_value.repeat(self.temporal_patch_size, 1, 1, 1)
-        elif self.batch_size % self.temporal_patch_size == 1:
-            repeat_image = pixel_value[-1:, ...].repeat(2, 1, 1, 1)
+        padding = (-pixel_value.size(0)) % self.temporal_patch_size
+        if padding:
+            repeat_image = pixel_value[-1:, ...].repeat(padding, 1, 1, 1)
             patches = torch.cat((pixel_value, repeat_image), dim=0)
         else:
             patches = pixel_value

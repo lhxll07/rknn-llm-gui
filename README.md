@@ -118,13 +118,13 @@ bash installer/install.sh
 - 左边：转换设置（模型目录、目标平台、量化方式等）
 - 右边：状态、转换日志、输出文件
 
-第一次使用可以点左下角的 **"检查环境"**，确认两个 Python 环境都正常后再开始转换。
+第一次使用可以点击顶部或右侧的 **"检查环境"**，确认两个 Python 环境都正常后再开始转换。
 
 ### 转换文本模型（以 Qwen 为例）
 
 1. 在 [Hugging Face](https://huggingface.co) 搜索并下载一个模型到本地，例如 [Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct)，下载时选择 **下载整个模型文件夹**（不要只下载单个文件）。
 2. 打开工作台，"转换类型" 保持默认的 **"文本模型"**。
-3. 在 **"模型目录"** 填写模型文件夹的完整路径。也可以点下面的文件浏览器，选中模型目录里的任意一个文件，路径会自动填好。
+3. 在 **"模型目录"** 填写模型文件夹的完整路径。也可以点击选择按钮，在目录选择器中选中模型目录。
 4. **"目标平台预设"**：开发板是 RK3588 就选 `RK3588`，是 RK3576 就选 `RK3576`。
 5. **"量化方式"**：使用默认值即可（RK3588 默认 W8A8，RK3576 默认 W4A16）。
 6. **"校准数据 JSON"**：保持默认路径 `examples/rkllm_api_demo/export/data_quant.json`。
@@ -143,6 +143,7 @@ bash installer/install.sh
 7. 完成后会得到两个文件：**视觉 RKNN**（处理图像）和**语言 RKLLM**（生成对话），配合板端示例程序一起部署。
 
 > 转换生成的临时文件和结果默认放在 `gui/runs/` 目录下，该目录已被 Git 忽略，不会提交到代码仓库。
+> 工作台启动时会保留最近 10 份任务配置和最近 3 个视觉转换临时目录，其余临时内容会自动清理；生成的模型结果不会被删除。
 
 ## 常见问题
 
@@ -165,6 +166,7 @@ bash installer/install.sh
 ```bash
 export RKLLM_WORKBENCH_MM_MIRROR="https://mirrors.ustc.edu.cn/anaconda/cloud/conda-forge"
 export RKLLM_WORKBENCH_MM_MIRROR_FALLBACK="https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge"
+export RKLLM_WORKBENCH_PYPI_MIRROR="https://pypi.org/simple"
 ```
 
 设置后再运行安装脚本。
@@ -221,7 +223,7 @@ Windows：
 
 - 官方 [rknn-llm](https://github.com/airockchip/rknn-llm) 项目
 - 官方 [RKNN Toolkit2](https://github.com/airockchip/rknn-toolkit2) 项目
-- 项目更新记录：[CHANGELOG.md](CHANGELOG.md)
+- 上游 RKLLM SDK 更新记录：[CHANGELOG.md](CHANGELOG.md)
 - 性能测试数据：[benchmark.md](benchmark.md)
 
 本项目遵循仓库原有许可证，详见 [LICENSE](LICENSE)。

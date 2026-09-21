@@ -27,6 +27,21 @@ SUPPORTED_VISION_MODELS = {
 }
 
 
+def _required_outputs(config: dict) -> list[Path]:
+    paths = [Path(config["output_path"])]
+    if config.get("conversion_mode") == "vision":
+        paths.extend(
+            [Path(config["vision_onnx_path"]), Path(config["vision_rknn_path"])]
+        )
+    return paths
+
+
+def _verify_outputs(config: dict) -> None:
+    missing = [str(path) for path in _required_outputs(config) if not path.is_file()]
+    if missing:
+        raise FileNotFoundError("以下输出文件没有生成：" + "、".join(missing))
+
+
 def _run_command(command: list[str], cwd: Path) -> None:
     print("$ " + shlex.join(command), flush=True)
     process = subprocess.Popen(
@@ -130,19 +145,25 @@ def _check_visual_dependencies(python: Path) -> None:
         [
             str(python),
             "-c",
-            "import importlib.util as u; "
-            "missing = [name for name in ('rknn', 'onnx') if u.find_spec(name) is None]; "
-            "print(','.join(missing)); "
-            "raise SystemExit(1 if missing else 0)",
+            "import importlib\n"
+            "for name in ('rknn.api', 'onnx', 'numpy'):\n"
+            " try:\n"
+            "  importlib.import_module(name)\n"
+            " except ModuleNotFoundError:\n"
+            "  print('缺失：' + name)\n"
+            "  raise SystemExit(1)\n"
+            " except Exception as exc:\n"
+            "  print('加载失败：' + name + '：' + str(exc))\n"
+            "  raise SystemExit(1)\n",
         ],
         capture_output=True,
         text=True,
         timeout=15,
     )
     if probe.returncode != 0:
-        missing_names = probe.stdout.strip().replace(",", "、") or "未知依赖"
+        missing_names = probe.stdout.strip() or "未知依赖"
         raise RuntimeError(
-            f"视觉转换环境缺少依赖：{missing_names}。请重新运行安装器。"
+            f"视觉转换环境不可用：{missing_names}。请重新运行安装器。"
         )
 
 
@@ -229,14 +250,22 @@ def _run_visual(config: dict) -> None:
 
     print("开始导出视觉模型的 RKLLM 部分……", flush=True)
     _build_rkllm(config, dataset)
+    shutil.rmtree(work_dir, ignore_errors=True)
+    print("已清理视觉转换临时目录。", flush=True)
 
 
 def run(config_path: Path) -> None:
     config = json.loads(config_path.read_text(encoding="utf-8"))
-    if config.get("conversion_mode") == "vision":
+    if not isinstance(config, dict):
+        raise ValueError("配置文件必须是 JSON 对象。")
+    mode = config.get("conversion_mode", "text")
+    if mode == "vision":
         _run_visual(config)
-    else:
+    elif mode == "text":
         _run_text(config)
+    else:
+        raise ValueError(f"不支持的转换模式：{mode}")
+    _verify_outputs(config)
 
 
 def main() -> None:
