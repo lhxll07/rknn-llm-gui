@@ -36,9 +36,20 @@ set(LIBRKNNRT ${RKNN_PATH}/${CMAKE_SYSTEM_NAME}/librknn_api/${TARGET_LIB_ARCH}/l
 set(LIBRKNNRT_INCLUDES ${RKNN_PATH}/${CMAKE_SYSTEM_NAME}/librknn_api/include)
 
 # imgenc
-include_directories(src/image_enc.h ${LIBRKNNRT_INCLUDES})
+include_directories(src ${LIBRKNNRT_INCLUDES})
 add_executable(imgenc src/image_enc.cc src/img_encoder.cpp)
 target_link_libraries(imgenc PRIVATE ${OpenCV_LIBS} ${LIBRKNNRT})
+
+# audioenc
+set(POCKETFFT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/pocketfft)
+set(MINIAUDIO_PATH ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/miniaudio)
+include_directories(src ${LIBRKNNRT_INCLUDES} ${POCKETFFT_PATH}/include ${MINIAUDIO_PATH})
+add_executable(audioenc src/audio_enc.cc src/audio_encoder.cpp src/audio_utils.cc)
+if(CMAKE_SYSTEM_NAME STREQUAL "Android")
+  target_link_libraries(audioenc PRIVATE ${LIBRKNNRT} m dl)
+else()
+  target_link_libraries(audioenc PRIVATE ${LIBRKNNRT} m dl pthread)
+endif()
 
 # rkllm runtime
 set(RKLLM_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../../rkllm-runtime)
@@ -49,7 +60,7 @@ find_package(OpenMP REQUIRED)
 include_directories(${LIBRKLLMRT_INCLUDES})
 
 # demo
-add_executable(${PROJECT_NAME} src/image_enc.cc src/main.cpp)
+add_executable(${PROJECT_NAME} src/image_enc.cc src/audio_enc.cc src/audio_utils.cc src/main.cpp)
 if(CMAKE_SYSTEM_NAME STREQUAL "Android")
   target_link_libraries(${PROJECT_NAME}  PRIVATE ${OpenCV_LIBS} ${LIBRKNNRT} ${LIBRKLLMRT} log)
 else()
@@ -60,6 +71,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS  -Wl,--no-undefined,
 
 # Install the executable file to the specified directory
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install/demo_${CMAKE_SYSTEM_NAME}_${TARGET_LIB_ARCH})
-install(TARGETS imgenc ${PROJECT_NAME} DESTINATION ./)
+install(TARGETS imgenc audioenc ${PROJECT_NAME} DESTINATION ./)
 install(PROGRAMS ${LIBRKNNRT} ${LIBRKLLMRT} DESTINATION lib)
 install(PROGRAMS ../data/demo.jpg DESTINATION ./)

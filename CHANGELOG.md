@@ -1,4 +1,12 @@
 # CHANGELOG
+## v1.3.1
+
+- Added support for LFM2.5-VL-450M and Spark-X2.5 models.
+- Added multimodal audio input interface and Gemma4 audio inference demo.
+- Added linear attention cache reuse strategy.
+- Fixed the parsing of UINT32-type EOS token IDs.
+- Fixed Use-After-Free issue caused by multi-instance initialization failure.
+
 ## v1.3.0
 
 - Added support for Qwen3.5, Gemma4, and SmolLM3 models.

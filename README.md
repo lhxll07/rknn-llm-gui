@@ -6,7 +6,7 @@ RK3588、RK3576 这类开发板只能运行一种叫做 **RKLLM** 的特殊模�
 
 整个转换过程都在你自己的电脑上完成，**模型文件不会被上传到任何服务器**。
 
-> 转换引擎基于官方 [rknn-llm](https://github.com/airockchip/rknn-llm) 项目（v1.3.0），本项目在其基础上增加了图形界面和自动安装器。
+> 转换引擎基于官方 [rknn-llm](https://github.com/airockchip/rknn-llm) 项目（v1.3.1），本项目在其基础上增加了图形界面和自动安装器。
 
 ## 它能做什么
 

@@ -6,7 +6,7 @@ import argparse
 argparse = argparse.ArgumentParser()
 argparse.add_argument('--path', type=str, default='./onnx/qwen2_5-vl-3b_vision.onnx', help='model path', required=False)
 argparse.add_argument('--model_name', type=str, default='qwen2_5-vl-3b',
-                    choices=['minicpm-v-2_6', 'qwen2_5-vl-3b', 'qwen3-vl', 'qwen3.5', 'smolvlm', 'internvl3-1b', 'deepseekocr'],
+                    choices=['minicpm-v-2_6', 'qwen2_5-vl-3b', 'qwen3-vl', 'qwen3.5', 'smolvlm', 'internvl3-1b', 'deepseekocr', 'gemma-4'],
                     help='model name', required=True)
 argparse.add_argument('--target-platform', type=str, default='rk3588', help='target platform', required=False)
 argparse.add_argument('--batch_size', type=int, default=1, help='batch size', required=False)
@@ -25,6 +25,9 @@ if 'qwen2' in model_path.lower():
 elif 'internvl3' in model_path.lower():
     mean_value = [[0.485 * 255, 0.456 * 255, 0.406 * 255]]
     std_value = [[0.229 * 255, 0.224 * 255, 0.225 * 255]]
+elif 'gemma-4' in model_path.lower():
+    mean_value = [[0, 0, 0]]
+    std_value = [[255, 255, 255]]
 else:
     mean_value = [[0.5 * 255, 0.5 * 255, 0.5 * 255]]
     std_value = [[0.5 * 255, 0.5 * 255, 0.5 * 255]]
@@ -40,6 +43,20 @@ elif modelname == 'qwen3-vl' or modelname == 'qwen3.5':
     input_size_list = [[args.batch_size, 3, args.height, args.width], [1,3]]
     grid_t = args.batch_size//2 if args.batch_size % 2 == 0 else (args.batch_size + 1)//2
     input_initial_val = [None, np.array([[grid_t, args.height//16, args.width//16]], dtype=np.int64)]
+    op_target = None
+elif modelname == 'gemma-4':
+    patch_size = 16
+    align_size = 48
+    align_h = (args.height + align_size - 1) // align_size * align_size
+    align_w = (args.width + align_size - 1) // align_size * align_size
+    num_patches_h = align_h // patch_size
+    num_patches_w = align_w // patch_size
+    num_patches = num_patches_h * num_patches_w
+    y, x = np.meshgrid(np.arange(num_patches_h), np.arange(num_patches_w), indexing='ij')
+    fake_pos_ids = np.stack([x, y], axis=-1).reshape(1, -1, 2).astype(np.int64)
+    inputs = ['pixel', 'pixel_position_ids']
+    input_size_list = [[args.batch_size, 3, align_h, align_w], [1, num_patches, 2]]
+    input_initial_val = [None, fake_pos_ids]
     op_target = None
 else:
     inputs = ['pixel']

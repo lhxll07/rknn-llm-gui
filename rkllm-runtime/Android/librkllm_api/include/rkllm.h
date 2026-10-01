@@ -169,6 +169,14 @@ typedef struct {
         size_t frame_width;        /**< Width of frame. */
         size_t frame_height;       /**< Height of frame. */
     } video;
+    struct {
+        float*    audio_embed;    /**< Embedding of the audio (size: n_audio * n_audio_tokens * embedding_dim * sizeof(float32)). */
+        size_t    n_audio_tokens; /**< Number of audio tokens. */
+        size_t    n_audio;        /**< Number of audio. */
+        const char* audio_start;    /**< Start tag for audio in multimodal input. */
+        const char* audio_end;      /**< End tag for audio in multimodal input. */
+        const char* audio_content;  /**< Content tag for audio in multimodal input. */
+    } audio;
 } RKLLMMultiModalInput;
 
 /**

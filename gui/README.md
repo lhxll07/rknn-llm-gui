@@ -71,7 +71,7 @@ $env:RKLLM_WORKBENCH_WSL_DISTRO = "Arch"
 
 ```bash
 python -m pip install -r rkllm-toolkit/packages/requirements.txt
-python -m pip install --no-deps rkllm-toolkit/packages/rkllm_toolkit-1.3.0-cp310-cp310-linux_x86_64.whl
+python -m pip install --no-deps rkllm-toolkit/packages/rkllm_toolkit-1.3.1-cp310-cp310-linux_x86_64.whl
 python -m pip install -r gui/requirements.txt
 ```
 

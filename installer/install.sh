@@ -28,6 +28,19 @@ if [[ "$(uname -m)" != "x86_64" ]]; then
   exit 1
 fi
 
+if [[ -x "$LLM_PYTHON" && -x "$VISION_PYTHON" && "${RKLLM_WORKBENCH_FORCE_INSTALL:-0}" != "1" ]]; then
+  if "$LLM_PYTHON" -c "import rkllm.api, torch, onnx" >/dev/null 2>&1 && \
+     "$VISION_PYTHON" -c "import rknn.api, onnx" >/dev/null 2>&1; then
+    echo "检测到现有运行环境完整可用，直接启动工作台……"
+    echo "（如需重新安装或更新依赖，请设置 RKLLM_WORKBENCH_FORCE_INSTALL=1）"
+    export RKLLM_WORKBENCH_LLM_PYTHON="$LLM_PYTHON"
+    export RKLLM_WORKBENCH_VISION_PYTHON="$VISION_PYTHON"
+    export RKLLM_WORKBENCH_PYTHON="$LLM_PYTHON"
+    echo "正在使用 $LLM_PYTHON 启动 RKLLM 工作台（本地 HTML 界面）"
+    exec "$LLM_PYTHON" "$ROOT_DIR/gui/app.py"
+  fi
+fi
+
 if ! command -v curl >/dev/null 2>&1; then
   echo "安装 micromamba 需要 curl。" >&2
   case "$DISTRO_ID" in
@@ -160,9 +173,11 @@ if [[ -z "$WHEEL" ]]; then
 fi
 
 echo "正在安装官方 RKLLM 依赖……"
-"$LLM_PYTHON" -m pip install -r "$ROOT_DIR/rkllm-toolkit/packages/requirements.txt"
+"$LLM_PYTHON" -m pip install -r "$ROOT_DIR/rkllm-toolkit/packages/requirements.txt" \
+  -i "$PYPI_MIRROR_URL"
 "$LLM_PYTHON" -m pip install --no-deps "$WHEEL"
-"$LLM_PYTHON" -m pip install -r "$ROOT_DIR/gui/requirements.txt"
+"$LLM_PYTHON" -m pip install -r "$ROOT_DIR/gui/requirements.txt" \
+  -i "$PYPI_MIRROR_URL"
 echo "正在安装视觉转换依赖……"
 "$VISION_PYTHON" -m pip install -r "$ROOT_DIR/gui/requirements-visual.txt" \
   -i "$PYPI_MIRROR_URL"

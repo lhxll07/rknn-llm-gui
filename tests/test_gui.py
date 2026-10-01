@@ -1,11 +1,13 @@
 import io
+import os
+import sys
 import threading
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from gui import server
+from gui import runtime, server, worker
 
 
 class ConfigTests(unittest.TestCase):
@@ -254,6 +256,78 @@ class RequestAndCleanupTests(unittest.TestCase):
             self.assertEqual(len(list(root.glob("*.json"))), 10)
             self.assertEqual(len(list(visual.iterdir())), 3)
             self.assertTrue(outputs.exists())
+
+
+class RuntimeTests(unittest.TestCase):
+    def test_explicit_env_vars_override_defaults(self):
+        with patch.dict(os.environ, {"RKLLM_WORKBENCH_LLM_PYTHON": "/custom/llm/python", "RKLLM_WORKBENCH_VISION_PYTHON": "/custom/vision/python"}):
+            self.assertEqual(runtime.llm_python(), Path("/custom/llm/python"))
+            self.assertEqual(runtime.vision_python(), Path("/custom/vision/python"))
+
+    def test_managed_env_is_detected_when_present(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            home = Path(temp_dir)
+            llm_bin = home / "micromamba/envs/rknn-llm-workbench-llm/bin/python"
+            vision_bin = home / "micromamba/envs/rknn-llm-workbench-vision/bin/python"
+            llm_bin.parent.mkdir(parents=True)
+            vision_bin.parent.mkdir(parents=True)
+            llm_bin.write_text("")
+            vision_bin.write_text("")
+            with patch.dict(os.environ, {"RKLLM_WORKBENCH_HOME": str(home)}, clear=False):
+                with patch.dict(os.environ, {"RKLLM_WORKBENCH_LLM_PYTHON": "", "RKLLM_WORKBENCH_VISION_PYTHON": "", "RKLLM_WORKBENCH_PYTHON": ""}):
+                    self.assertEqual(runtime.llm_python(), llm_bin)
+                    self.assertEqual(runtime.vision_python(), vision_bin)
+
+    def test_falls_back_to_sys_executable_when_no_managed_env(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            with patch.dict(os.environ, {"RKLLM_WORKBENCH_HOME": temp_dir}, clear=False):
+                with patch.dict(os.environ, {"RKLLM_WORKBENCH_LLM_PYTHON": "", "RKLLM_WORKBENCH_VISION_PYTHON": "", "RKLLM_WORKBENCH_PYTHON": ""}):
+                    self.assertEqual(runtime.llm_python(), Path(sys.executable))
+                    self.assertEqual(runtime.vision_python(), Path(sys.executable))
+
+
+class WorkerTests(unittest.TestCase):
+    def test_visual_workspace_cleaned_up_on_failure(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            runs_dir = Path(temp_dir) / "runs"
+            runs_dir.mkdir()
+            fake_llm = Path(temp_dir) / "python_llm"
+            fake_llm.write_text("")
+            fake_model = Path(temp_dir) / "fake_model"
+            fake_model.mkdir()
+
+            config = {
+                "model_path": str(fake_model),
+                "vision_model_name": "qwen2_5-vl-3b",
+                "vision_model_type": "qwen2.5vl",
+                "vision_batch_size": 1,
+                "vision_height": 448,
+                "vision_width": 448,
+                "device": "cpu",
+                "target_platform": "rk3588",
+                "vision_onnx_path": str(Path(temp_dir) / "out.onnx"),
+                "vision_rknn_path": str(Path(temp_dir) / "out.rknn"),
+            }
+
+            created_workspaces = []
+
+            def fake_prepare():
+                ws = runs_dir / "visual/test_ws"
+                ws.mkdir(parents=True, exist_ok=True)
+                created_workspaces.append(ws)
+                return ws
+
+            with patch.object(worker, "RUNS_DIR", runs_dir), \
+                 patch.object(worker, "llm_python", return_value=fake_llm), \
+                 patch.object(worker, "vision_python", return_value=fake_llm), \
+                 patch.object(worker, "_check_visual_dependencies"), \
+                 patch.object(worker, "_prepare_visual_workspace", side_effect=fake_prepare), \
+                 patch.object(worker, "_run_command", side_effect=RuntimeError("export failed")):
+                with self.assertRaisesRegex(RuntimeError, "export failed"):
+                    worker._run_visual(config)
+
+            self.assertEqual(len(created_workspaces), 1)
+            self.assertFalse(created_workspaces[0].exists())
 
 
 if __name__ == "__main__":

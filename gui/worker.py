@@ -184,74 +184,76 @@ def _run_visual(config: dict) -> None:
         raise ValueError("视觉模型类型与校准模型类型不匹配。")
 
     work_dir = _prepare_visual_workspace()
-    onnx_name = f"{model_name}_vision.onnx"
-    generated_onnx = work_dir / "onnx" / onnx_name
-    generated_rknn = work_dir / "rknn" / f"{Path(onnx_name).stem}_{config['target_platform']}.rknn"
+    try:
+        onnx_name = f"{model_name}_vision.onnx"
+        generated_onnx = work_dir / "onnx" / onnx_name
+        generated_rknn = work_dir / "rknn" / f"{Path(onnx_name).stem}_{config['target_platform']}.rknn"
 
-    print("开始导出视觉 ONNX 模型……", flush=True)
-    _run_command(
-        [
-            str(llm_runtime),
-            str(VISION_EXPORT_SCRIPT),
-            "--path",
-            str(model_path),
-            "--model_name",
-            model_name,
-            "--batch_size",
-            str(config["vision_batch_size"]),
-            "--height",
-            str(config["vision_height"]),
-            "--width",
-            str(config["vision_width"]),
-            "--device",
-            config["device"],
-        ],
-        work_dir,
-    )
-    _copy_artifact(generated_onnx, Path(config["vision_onnx_path"]), "视觉 ONNX 文件")
+        print("开始导出视觉 ONNX 模型……", flush=True)
+        _run_command(
+            [
+                str(llm_runtime),
+                str(VISION_EXPORT_SCRIPT),
+                "--path",
+                str(model_path),
+                "--model_name",
+                model_name,
+                "--batch_size",
+                str(config["vision_batch_size"]),
+                "--height",
+                str(config["vision_height"]),
+                "--width",
+                str(config["vision_width"]),
+                "--device",
+                config["device"],
+            ],
+            work_dir,
+        )
+        _copy_artifact(generated_onnx, Path(config["vision_onnx_path"]), "视觉 ONNX 文件")
 
-    print("开始转换视觉 RKNN 模型……", flush=True)
-    _run_command(
-        [
-            str(vision_runtime),
-            str(VISION_RKNN_SCRIPT),
-            "--path",
-            str(generated_onnx),
-            "--model_name",
-            model_name,
-            "--target-platform",
-            config["target_platform"],
-            "--batch_size",
-            str(config["vision_batch_size"]),
-            "--height",
-            str(config["vision_height"]),
-            "--width",
-            str(config["vision_width"]),
-        ],
-        work_dir,
-    )
-    _copy_artifact(generated_rknn, Path(config["vision_rknn_path"]), "视觉 RKNN 文件")
+        print("开始转换视觉 RKNN 模型……", flush=True)
+        _run_command(
+            [
+                str(vision_runtime),
+                str(VISION_RKNN_SCRIPT),
+                "--path",
+                str(generated_onnx),
+                "--model_name",
+                model_name,
+                "--target-platform",
+                config["target_platform"],
+                "--batch_size",
+                str(config["vision_batch_size"]),
+                "--height",
+                str(config["vision_height"]),
+                "--width",
+                str(config["vision_width"]),
+            ],
+            work_dir,
+        )
+        _copy_artifact(generated_rknn, Path(config["vision_rknn_path"]), "视觉 RKNN 文件")
 
-    print("正在生成多模态校准数据……", flush=True)
-    _run_command(
-        [
-            str(llm_runtime),
-            str(VISION_CALIBRATION_SCRIPT),
-            "--path",
-            str(model_path),
-            "--model_type",
-            config["vision_model_type"],
-        ],
-        work_dir,
-    )
-    dataset = work_dir / "data/llm_inputs.json"
-    if not dataset.is_file():
-        raise FileNotFoundError(f"多模态校准数据没有生成：{dataset}")
+        print("正在生成多模态校准数据……", flush=True)
+        _run_command(
+            [
+                str(llm_runtime),
+                str(VISION_CALIBRATION_SCRIPT),
+                "--path",
+                str(model_path),
+                "--model_type",
+                config["vision_model_type"],
+            ],
+            work_dir,
+        )
+        dataset = work_dir / "data/llm_inputs.json"
+        if not dataset.is_file():
+            raise FileNotFoundError(f"多模态校准数据没有生成：{dataset}")
 
-    print("开始导出视觉模型的 RKLLM 部分……", flush=True)
-    _build_rkllm(config, dataset)
-    shutil.rmtree(work_dir, ignore_errors=True)
-    print("已清理视觉转换临时目录。", flush=True)
+        print("开始导出视觉模型的 RKLLM 部分……", flush=True)
+        _build_rkllm(config, dataset)
+    finally:
+        shutil.rmtree(work_dir, ignore_errors=True)
+        print("已清理视觉转换临时目录。", flush=True)
 
 
 def run(config_path: Path) -> None:
