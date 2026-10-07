@@ -1,0 +1,54 @@
+{
+  "toolkit": "repository 1.3.1 wheel",
+  "portable_python": "/usr/bin/python3",
+  "results": [
+    {
+      "configuration": "h128-f256-l1",
+      "seed": 3407,
+      "bytes": 677860,
+      "source_dtype": "torch.float32",
+      "source_shards": 4,
+      "sha256": "3de7e9a4140b96c664421331862a0fe8a73acc5ef600e1a5ee89b734fdaa86db",
+      "official_byte_identical": true
+    },
+    {
+      "configuration": "h128-f256-l1",
+      "seed": 20261007,
+      "bytes": 677860,
+      "source_dtype": "torch.bfloat16",
+      "source_shards": 2,
+      "sha256": "f701544d4bc87dfd6df5247dcb060e1044da5859e54e1e7b98bd95cd4355223b",
+      "official_byte_identical": true
+    },
+    {
+      "configuration": "h256-f768-l2",
+      "seed": 3407,
+      "bytes": 3800508,
+      "source_dtype": "torch.float32",
+      "source_shards": 14,
+      "sha256": "f50f94a547a49c4766fc66d1d912c1e50a4dc5357f2239f004db304fb3c3bfdf",
+      "official_byte_identical": true
+    },
+    {
+      "configuration": "h256-f768-l2",
+      "seed": 20261007,
+      "bytes": 3800508,
+      "source_dtype": "torch.float16",
+      "source_shards": 10,
+      "sha256": "6c0a2172eb96a86dd6ceddc1e8c7cbaacecc24c5a1206724557668919b8f0099",
+      "official_byte_identical": true
+    }
+  ],
+  "checks": [
+    "all four outputs byte-identical to official",
+    "different source weights produce different outputs",
+    "existing output preserved",
+    "changed normalization configuration rejected",
+    "truncated container rejected"
+  ],
+  "limitations": [
+    "NPU programs reused from configuration-matching reference",
+    "no ARM64 hardware execution",
+    "no Rockchip Runtime inference execution"
+  ]
+}

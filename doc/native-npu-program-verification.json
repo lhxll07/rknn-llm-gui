@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-07",
+  "reference_accessors": "repository Toolkit 1.3.1 used for analysis/differential verification only",
+  "independent_parser_dependencies": "Python standard library only",
+  "results": [
+    {
+      "plan": "tiny-llama.rkplan",
+      "program_sha256": "07492568c87e95c935bdc1d0d51ccfa21cb8ee9d701203edd723edfd0efc4fd4",
+      "operators": 10,
+      "tensors": 34,
+      "address_tables": 32,
+      "tasks": 236,
+      "regcmd_words": 24832,
+      "all_exposed_model_fields_match": true
+    },
+    {
+      "plan": "qwen35-0.8b-rk3588-fp16-qwen2.rkplan",
+      "program_sha256": "f0bbbc0fbc4cdefd192e838b520d470140ac15ff582716e383cf0af7de1a28f1",
+      "operators": 159,
+      "tensors": 481,
+      "address_tables": 479,
+      "tasks": 4393,
+      "regcmd_words": 392264,
+      "all_exposed_model_fields_match": true
+    }
+  ]
+}

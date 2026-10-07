@@ -1,0 +1,447 @@
+{
+  "model": "Qwen/Qwen3.5-0.8B",
+  "source": "ModelScope",
+  "toolkit_reference": "1.3.1",
+  "target": "rk3588",
+  "num_npu_core": 1,
+  "precision": "FP16",
+  "max_context": 128,
+  "bytes": 2030366996,
+  "official_byte_identical": false,
+  "different_payload_bytes": 12,
+  "metadata_changes": {
+    "tokenizer.ggml.pre": {
+      "reference": "default",
+      "native": "qwen2"
+    }
+  },
+  "different_fp32_values": 12,
+  "differences": [
+    {
+      "name": "blk.1.ssm_a",
+      "indices": [
+        5
+      ],
+      "reference": [
+        -0.31466397643089294
+      ],
+      "native": [
+        -0.31466394662857056
+      ],
+      "ulp": [
+        1
+      ]
+    },
+    {
+      "name": "blk.4.ssm_a",
+      "indices": [
+        2
+      ],
+      "reference": [
+        -0.31466397643089294
+      ],
+      "native": [
+        -0.31466394662857056
+      ],
+      "ulp": [
+        1
+      ]
+    },
+    {
+      "name": "blk.5.ssm_a",
+      "indices": [
+        6
+      ],
+      "reference": [
+        -0.9253004789352417
+      ],
+      "native": [
+        -0.9253005385398865
+      ],
+      "ulp": [
+        1
+      ]
+    },
+    {
+      "name": "blk.8.ssm_a",
+      "indices": [
+        9
+      ],
+      "reference": [
+        -0.10057263821363449
+      ],
+      "native": [
+        -0.10057264566421509
+      ],
+      "ulp": [
+        1
+      ]
+    },
+    {
+      "name": "blk.9.ssm_a",
+      "indices": [
+        0
+      ],
+      "reference": [
+        -0.4056178629398346
+      ],
+      "native": [
+        -0.405617892742157
+      ],
+      "ulp": [
+        1
+      ]
+    },
+    {
+      "name": "blk.12.ssm_a",
+      "indices": [
+        8,
+        10
+      ],
+      "reference": [
+        -0.11045744270086288,
+        -0.16581624746322632
+      ],
+      "native": [
+        -0.11045743525028229,
+        -0.1658162623643875
+      ],
+      "ulp": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "blk.13.ssm_a",
+      "indices": [
+        7
+      ],
+      "reference": [
+        -0.11045744270086288
+      ],
+      "native": [
+        -0.11045743525028229
+      ],
+      "ulp": [
+        1
+      ]
+    },
+    {
+      "name": "blk.14.ssm_a",
+      "indices": [
+        0,
+        5
+      ],
+      "reference": [
+        -0.31466397643089294,
+        -0.31466397643089294
+      ],
+      "native": [
+        -0.31466394662857056,
+        -0.31466394662857056
+      ],
+      "ulp": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "blk.16.ssm_a",
+      "indices": [
+        1
+      ],
+      "reference": [
+        -0.4056178629398346
+      ],
+      "native": [
+        -0.405617892742157
+      ],
+      "ulp": [
+        1
+      ]
+    },
+    {
+      "name": "blk.18.ssm_a",
+      "indices": [
+        9
+      ],
+      "reference": [
+        -0.16581624746322632
+      ],
+      "native": [
+        -0.1658162623643875
+      ],
+      "ulp": [
+        1
+      ]
+    }
+  ],
+  "native_sha256": "c8e36d3439330e301238e1c00f83858c8699d89d1b503f962be69450a4afcfc0",
+  "reference_sha256": "27e262e3e5ebb4d7f340f4085f01a0895c3ad184a784c2e35e2772917b3930b9",
+  "program_reused": true,
+  "vision_exported": false,
+  "date": "2026-10-07",
+  "source_weight_sha256": "04b1c301231dd422b8860db31311ab2721511346a32cb1e079c4c4e5f1fe4696",
+  "program_bytes": 3882712,
+  "program_sha256": "f0bbbc0fbc4cdefd192e838b520d470140ac15ff582716e383cf0af7de1a28f1",
+  "cpu_original_model": [
+    {
+      "prompt": "计算 17 + 25，只输出结果。",
+      "input_ids": [
+        248045,
+        846,
+        198,
+        97792,
+        220,
+        16,
+        22,
+        478,
+        220,
+        17,
+        20,
+        3709,
+        96227,
+        100627,
+        97989,
+        1710,
+        248046,
+        198,
+        248045,
+        74455,
+        198,
+        248068,
+        271,
+        248069,
+        271
+      ],
+      "output_ids": [
+        19,
+        17,
+        248046
+      ],
+      "output": "42",
+      "seconds": 0.5354019400001562
+    },
+    {
+      "prompt": "请计算 1 加 1，只输出数字。",
+      "input_ids": [
+        248045,
+        846,
+        198,
+        96220,
+        97792,
+        220,
+        16,
+        220,
+        95984,
+        220,
+        16,
+        3709,
+        96227,
+        100627,
+        99129,
+        1710,
+        248046,
+        198,
+        248045,
+        74455,
+        198,
+        248068,
+        271,
+        248069,
+        271
+      ],
+      "output_ids": [
+        17,
+        248046
+      ],
+      "output": "2",
+      "seconds": 0.3275971250004659
+    }
+  ],
+  "board_validation": {
+    "board": "Radxa ROCK 5T / RK3588",
+    "architecture": "aarch64",
+    "kernel": "6.1.115-vendor-rk35xx",
+    "python": "3.13.5",
+    "runtime": "1.3.1",
+    "rknpu_driver": "0.9.8",
+    "num_npu_core": 1,
+    "max_context": 128,
+    "precision": "FP16",
+    "language_only": true,
+    "arm_native_sha256": "06fa106deacebbd8592ecd947cfeba8c9bd395f2757ca42d7d09d0e08a8b7d73",
+    "reference_sha256": "27e262e3e5ebb4d7f340f4085f01a0895c3ad184a784c2e35e2772917b3930b9",
+    "successful_npu_submits": 338,
+    "npu_submit_calls": 338,
+    "convert": {
+      "output": "native.rkllm",
+      "size": 2030366996,
+      "quantization": "FP16",
+      "target": "RK3588",
+      "cores": 1,
+      "compiler": "cached NPU program",
+      "runtime_verified": false,
+      "language_only": true,
+      "weight_rounding": "SSM -exp(A_log) uses float64 exp rounded to FP32; may differ from Torch/MKL by 1 ULP"
+    },
+    "baseline_results": [
+      {
+        "name": "capital",
+        "prompt": "请用中文回答：法国的首都是哪里？只回答城市名称。",
+        "native": {
+          "valid": true,
+          "run": 0,
+          "destroy": 0,
+          "finished": true,
+          "tokens": [
+            109705,
+            248046
+          ]
+        },
+        "reference": {
+          "valid": true,
+          "run": 0,
+          "destroy": 0,
+          "finished": true,
+          "tokens": [
+            109705,
+            248046
+          ]
+        },
+        "tokens_identical": true
+      },
+      {
+        "name": "arithmetic",
+        "prompt": "计算 17 + 25，只输出结果。",
+        "native": {
+          "valid": true,
+          "run": 0,
+          "destroy": 0,
+          "finished": true,
+          "tokens": [
+            18,
+            17,
+            248046
+          ]
+        },
+        "reference": {
+          "valid": true,
+          "run": 0,
+          "destroy": 0,
+          "finished": true,
+          "tokens": [
+            18,
+            17,
+            248046
+          ]
+        },
+        "tokens_identical": true
+      },
+      {
+        "name": "addition",
+        "prompt": "请计算 1 加 1，只输出数字。",
+        "native": {
+          "valid": true,
+          "run": 0,
+          "destroy": 0,
+          "finished": true,
+          "tokens": [
+            17,
+            248046
+          ]
+        },
+        "reference": {
+          "valid": true,
+          "run": 0,
+          "destroy": 0,
+          "finished": true,
+          "tokens": [
+            17,
+            248046
+          ]
+        },
+        "tokens_identical": true
+      }
+    ],
+    "corrected_results": [
+      {
+        "name": "capital",
+        "valid": true,
+        "token_input": false,
+        "run": 0,
+        "destroy": 0,
+        "finished": true,
+        "tokens": [
+          109705,
+          248046
+        ]
+      },
+      {
+        "name": "arithmetic",
+        "valid": true,
+        "token_input": false,
+        "run": 0,
+        "destroy": 0,
+        "finished": true,
+        "tokens": [
+          19,
+          17,
+          248046
+        ]
+      },
+      {
+        "name": "addition",
+        "valid": true,
+        "token_input": false,
+        "run": 0,
+        "destroy": 0,
+        "finished": true,
+        "tokens": [
+          17,
+          248046
+        ]
+      }
+    ],
+    "raw_token_arithmetic": {
+      "valid": true,
+      "token_input": true,
+      "run": 0,
+      "destroy": 0,
+      "finished": true,
+      "tokens": [
+        19,
+        17,
+        248046
+      ]
+    },
+    "corrected_successful_npu_submits": 495,
+    "corrected_npu_submit_calls": 495,
+    "corrected_arm_native_sha256": "c8e36d3439330e301238e1c00f83858c8699d89d1b503f962be69450a4afcfc0",
+    "corrected_convert": {
+      "output": "native-qwen2.rkllm",
+      "size": 2030366996,
+      "quantization": "FP16",
+      "target": "RK3588",
+      "cores": 1,
+      "compiler": "cached NPU program",
+      "runtime_verified": false,
+      "language_only": true,
+      "tokenizer_correction": {
+        "key": "tokenizer.ggml.pre",
+        "reference": "default",
+        "native": "qwen2",
+        "reason": "Qwen source regex splits individual digits; Runtime default differs"
+      },
+      "weight_rounding": "SSM -exp(A_log) uses float64 exp rounded to FP32; may differ from Torch/MKL by 1 ULP"
+    },
+    "corrected_conversion_time": "real\t0m19.879s\nuser\t0m14.529s\nsys\t0m5.956s"
+  },
+  "limitations": [
+    "configuration-matching official NPU program reused; compiler not implemented",
+    "official Runtime still required for inference",
+    "language only; vision and MTP excluded",
+    "FP16, RK3588 single core, context 128",
+    "single source checkpoint and three short probes; no general quality or tokenizer equivalence claim"
+  ]
+}

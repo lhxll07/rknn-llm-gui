@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-07",
+  "board": "Radxa ROCK 5T / RK3588",
+  "toolkit_on_board": false,
+  "runtime_version": "1.3.1",
+  "rknpu_driver_version": "0.9.8",
+  "target": "RK3588 single NPU core FP16",
+  "results": [
+    {
+      "runtime_verified": true,
+      "input_ids": [
+        4,
+        5
+      ],
+      "tokens": [
+        154,
+        97,
+        123,
+        231,
+        20,
+        5,
+        113,
+        148
+      ],
+      "reference_tokens_identical": true,
+      "arm64_conversion_verified": true,
+      "official_byte_identical": true,
+      "sha256": "78007f6faaa7b6daf195e08ae87fa645ab820b6d48943c1112acdf42fa56618a",
+      "environment": {
+        "machine": "aarch64",
+        "kernel": "6.1.115-vendor-rk35xx",
+        "python": "3.13.5 (main, Jul 15 2026, 20:25:40) [GCC 14.2.0]",
+        "numpy": "2.3.4",
+        "platform": "Linux-6.1.115-vendor-rk35xx-aarch64-with-glibc2.41",
+        "device_compatible": "radxa,rock-5t, rockchip,rk3588, "
+      },
+      "configuration": "h128-f256-l1",
+      "seed": 20261007,
+      "source_dtype": "BF16",
+      "source_shards": 2
+    },
+    {
+      "runtime_verified": true,
+      "input_ids": [
+        4,
+        5
+      ],
+      "tokens": [
+        20,
+        44,
+        33,
+        33,
+        29,
+        71,
+        39,
+        29
+      ],
+      "reference_tokens_identical": true,
+      "arm64_conversion_verified": true,
+      "official_byte_identical": true,
+      "sha256": "675641383021f871ac31d4baadf0f43a691673f641156bc1de68861196a398d4",
+      "environment": {
+        "machine": "aarch64",
+        "kernel": "6.1.115-vendor-rk35xx",
+        "python": "3.13.5 (main, Jul 15 2026, 20:25:40) [GCC 14.2.0]",
+        "numpy": "2.3.4",
+        "platform": "Linux-6.1.115-vendor-rk35xx-aarch64-with-glibc2.41",
+        "device_compatible": "radxa,rock-5t, rockchip,rk3588, "
+      },
+      "configuration": "h256-f768-l2",
+      "seed": 20261007,
+      "source_dtype": "FP16",
+      "source_shards": 10
+    }
+  ],
+  "npu_execution_evidence": {
+    "npu_device": "/dev/dri/card1",
+    "driver": "/sys/bus/platform/drivers/RKNPU",
+    "ioctl_calls": 606,
+    "requests": {
+      "0xc0406400": 2,
+      "0xc0106401": 2,
+      "0xc0086440": 146,
+      "0xc0306442": 8,
+      "0xc008640a": 8,
+      "0xc00c642d": 8,
+      "0xc0106443": 8,
+      "0xc0206445": 284,
+      "0xc0686441": 132,
+      "0xc0106444": 8
+    },
+    "successful_submit_calls": 132,
+    "samples": [
+      "10576 ioctl(3</dev/dri/card1<char 226:1>>, 0xc0686441, 0xfffff5dc9240) = 0",
+      "10576 ioctl(3</dev/dri/card1<char 226:1>>, 0xc0686441, 0xfffff5dc9240) = 0",
+      "10576 ioctl(3</dev/dri/card1<char 226:1>>, 0xc0686441, 0xfffff5dc9240) = 0",
+      "10576 ioctl(3</dev/dri/card1<char 226:1>>, 0xc0686441, 0xfffff5dc9290) = 0"
+    ]
+  },
+  "evidence_sha256": {
+    "driver-version.txt": "9d048864ead4a172bb7c907be06e599df782a609e87fe33344006a29e06e9abf",
+    "h128-f256-l1/board-report.json": "3939c3e39524c451d4394051cba725b2054288c381e455fee81c0c5dbde97661",
+    "h128-f256-l1/conversion.log": "017f11cd90d6acc3da367e5445cd794ab75c42185453e3818f462c3483c84ebb",
+    "h128-f256-l1/environment.json": "acda94e90e3d54205fe1d27e915070dc67e481d91e3826b1d4f2d54efe0e3cff",
+    "h128-f256-l1/runtime.log": "a8b90efa613c4bee1d85d5845d80ea208b08684ce41468ffae02a3bdbbbcc3c7",
+    "h256-f768-l2/board-report.json": "fc3b1ed0c4501d9e6f03bb6858e90c18821d4e35c36487c9b69ef528117062d0",
+    "h256-f768-l2/conversion.log": "02903fe4afe32c7d5a308fbe6798a363d999859a208098bf784dcc1d2f706b57",
+    "h256-f768-l2/environment.json": "acda94e90e3d54205fe1d27e915070dc67e481d91e3826b1d4f2d54efe0e3cff",
+    "h256-f768-l2/runtime.log": "3d825f745d122e05a8b91bff7db13ba5a8985bcd46094b6b889ec287266be7af",
+    "invalid-plan-check.log": "d1eb4f1bc6e84b98311ea7a1e414cf5d7e346e18b3844c995529389f54a3bd42",
+    "npu-device-driver.txt": "c0d3b4a9f41a849738b35af35bba8bbd88994f8197f1de02dbdf2961a2bf02b0",
+    "npu-ioctl-numeric.log": "4a5791515846f0a5bda3c711c115812926eadda037a4040a9fc44ffaccc1348c",
+    "npu-ioctl-summary.json": "e0b71d54f93cc78ac112e631b8d59b5414dbf934f8b32e7e6c3c195f2485fa39",
+    "numeric-traced-runtime.log": "542deae119d1880244a3bfa1b859105e8ba1ffe3ec8fa0a93ab6e8dcc5e158fe",
+    "wordlevel-initial-load-failure.log": "f552529c0d1a5944b23e40cd79d8eda53b2a49f7a08400e6e63a90101a903c7a"
+  },
+  "limitations": [
+    "NPU program reused from a matching reference; compiler not reimplemented",
+    "Random small Llama models with ByteLevel BPE only; no real pretrained model quality or performance benchmark",
+    "Qwen, quantization and multi-core not implemented"
+  ],
+  "invalid_plan_rejected_on_arm64": true,
+  "invalid_output_created": false,
+  "verified_bundle_sha256": "7ae57925c3b58f725bb7e4edcb35b13a20feb566ae31df43b68760dc3cda9d05",
+  "source_sha256": {
+    "native_converter/__init__.py": "020625ccfeb8f49909cb2603db693b63c4bf2f57af5f25c8aa5b45c7895dd122",
+    "native_converter/__main__.py": "e3f216d05bc037e2f7846951b483c3d0251c5dd2c08b14cbf650a8e921da50eb",
+    "native_converter/container.py": "a28d0e7d9aa8faa2272a1d31629d462f0771c495c10009f0c9b0424cd7d7f489",
+    "native_converter/converter.py": "6f2f4bc28dc60688f6ae0916800c28ff1a59f99612474b3d24a29efae5839c01",
+    "native_converter/weights.py": "de90ff5107c3573b25020b704441d58361c507dc7aeb70774686ff29f5e2752a"
+  }
+}

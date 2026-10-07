@@ -1,0 +1,69 @@
+// Observed RKLLM Toolkit 1.3.1 Model schema, recovered from accessor behavior.
+// Numeric enum values remain raw here; unknown fields are not invented.
+namespace RecoveredRKLLM;
+
+table Shape { dims:[int]; }
+table MatMulTensor {
+  layout:byte;
+  quant_type:byte;
+  group_size:int;
+  quant_params:[ubyte];
+}
+table MatMulParams {
+  type:byte;
+  shapes:[Shape];
+  input_a:MatMulTensor;
+  input_b:MatMulTensor;
+  output_c:MatMulTensor;
+}
+table JobSubmit {
+  task_start:[int];
+  task_number:[int];
+  lut_number:[int];
+}
+table Operator {
+  type:string;
+  name:string;
+  domain_id:int;
+  matmul_params:MatMulParams;
+  inputs:[int];
+  outputs:[int];
+  jobs:[JobSubmit];
+}
+table Tensor {
+  type:byte;
+  layout:byte;
+  category:byte;
+  shape:[int];
+  original_shape:[int];
+  name:string;
+  plan_size:uint;
+  plan_offset:uint;
+}
+struct AddrRegInfo {
+  address_offset:int;
+  regcmd_word:int;
+  core_mask:int;
+  core_id:int;
+}
+table TensorAddrReg { name:string; entries:[AddrRegInfo]; }
+table DomainManage {
+  domain_id:int;
+  operators:[string];
+  internal_size:int;
+  constant_size:int;
+  regcmd_size:int;
+  regtask_size:int;
+  total_dma_size:int;
+}
+table Model {
+  version:uint;
+  target:string;
+  core_mode:ubyte;
+  operators:[Operator];
+  tensors:[Tensor];
+  tensor_address_regs:[TensorAddrReg];
+  domains:[DomainManage];
+}
+root_type Model;
+file_identifier "RKRK";
